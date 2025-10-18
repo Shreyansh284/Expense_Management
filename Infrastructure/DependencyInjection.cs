@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Interfaces.Services;
+using Core.Interfaces.Repositories;
 using Core.Options;
 using Infrastructure.Data;
+using Infrastructure.Repositories;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -16,8 +20,11 @@ namespace Infrastructure
         {
             services.AddDbContext<AppDbContext>((provider, options) =>
                 options.UseSqlServer(provider.GetRequiredService<IOptionsSnapshot<ConnectionString>>().Value.DefaultConnection));
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-          
+
 
             // Add HTTP context accessor
             services.AddHttpContextAccessor();

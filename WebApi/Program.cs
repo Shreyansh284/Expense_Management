@@ -3,12 +3,17 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using WebApi;
+using WebApi.Filters;
+using WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ValidationErrorFilter>();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -83,9 +88,11 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 
+app.UseMiddleware<GlobalExceptionMiddleware>();
+
 app.UseCors("AllowAll");
 
-app.UseAuthentication();    
+app.UseAuthentication();
 
 app.UseAuthorization();
 
