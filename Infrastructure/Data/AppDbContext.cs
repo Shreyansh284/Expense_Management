@@ -14,8 +14,21 @@ namespace Infrastructure.Data
         public DbSet<People> Peoples => Set<People>();
         public DbSet<Project> Projects => Set<Project>();
         public DbSet<Income> Incomes => Set<Income>();
-        public DbSet<Expense> Expenses => Set<Expense>();   
+        public DbSet<Expense> Expenses => Set<Expense>();
         public DbSet<Category> Categories => Set<Category>();
         public DbSet<SubCategory> SubCategories => Set<SubCategory>();
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            foreach (var property in modelBuilder.Model
+                         .GetEntityTypes()
+                         .SelectMany(t => t.GetProperties())
+                         .Where(p => p.ClrType == typeof(decimal)))
+            {
+                property.SetPrecision(18);
+                property.SetScale(2);
+            }
+        }
     }
 }

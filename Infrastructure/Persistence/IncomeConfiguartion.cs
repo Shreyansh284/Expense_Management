@@ -20,6 +20,7 @@ namespace Infrastructure.Persistence
             builder.Property(x => x.AttachmentPath).HasMaxLength(250);
             builder.Property(x => x.Description).HasMaxLength(500);
             builder.Property(x => x.IsActive).HasDefaultValue(true);
+            builder.Property(x=>x.Amount).HasColumnType("decimal(18,2)");
             builder.Property(x => x.Created)
                                        .HasDefaultValueSql("DATEADD(MINUTE, 330, GETUTCDATE())")
                                        .ValueGeneratedOnAdd();
@@ -40,12 +41,12 @@ namespace Infrastructure.Persistence
             builder.HasOne(x => x.People)
                    .WithMany()
                    .HasForeignKey(x => x.PeopleID)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(x => x.User)
                    .WithMany()
                    .HasForeignKey(x => x.UserID)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(x => x.Project)
                    .WithMany()

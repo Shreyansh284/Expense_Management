@@ -22,6 +22,7 @@ namespace Core.Entities
         public string? IncomeDetail { get; set; }
         public string? AttachmentPath { get; set; }
         public string? Description { get; set; }
+        public bool? IsActive { get; set; }=true;
         public int UserID { get; set; }
         public User User { get; set; }
         public DateTime Created { get; set; }

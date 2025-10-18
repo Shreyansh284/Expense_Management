@@ -21,6 +21,7 @@ namespace Infrastructure.Persistence
             builder.Property(x=>x.IsActive).HasDefaultValue(true);
             builder.Property(x=>x.IsExpense).HasDefaultValue(true);
             builder.Property(x=>x.IsIncome).HasDefaultValue(true);
+            builder.Property(x=>x.Sequence).HasColumnType("decimal(18,2)");
             builder.Property(x => x.Created)
                                   .HasDefaultValueSql("DATEADD(MINUTE, 330, GETUTCDATE())")
                                   .ValueGeneratedOnAdd();

@@ -13,7 +13,7 @@ namespace Infrastructure.Persistence
     {
         public void Configure(EntityTypeBuilder<SubCategory> builder)
         {
-          
+
             builder.HasKey(x => x.SubCategoryID);
             builder.Property(x => x.SubCategoryID).ValueGeneratedOnAdd().UseIdentityColumn();
             builder.Property(x => x.SubCategoryName).IsRequired().HasMaxLength(250);
@@ -22,6 +22,7 @@ namespace Infrastructure.Persistence
             builder.Property(x => x.IsActive).HasDefaultValue(true);
             builder.Property(x => x.IsExpense).HasDefaultValue(true);
             builder.Property(x => x.IsIncome).HasDefaultValue(true);
+            builder.Property(x=>x.Sequence).HasColumnType("decimal(18,2)");
             builder.Property(x => x.Created)
                                   .HasDefaultValueSql("DATEADD(MINUTE, 330, GETUTCDATE())")
                                   .ValueGeneratedOnAdd();
@@ -39,7 +40,7 @@ namespace Infrastructure.Persistence
             builder.HasOne(x => x.User)
                    .WithMany(u => u.SubCategories)
                    .HasForeignKey(x => x.UserID)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
